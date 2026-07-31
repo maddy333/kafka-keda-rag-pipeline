@@ -1,0 +1,20 @@
+steps:
+  # 1. Build API Docker Image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-f', 'Dockerfile.api', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/distributed-rag-repo/api:$SHORT_SHA', '.']
+
+  # 2. Build Worker Docker Image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-f', 'Dockerfile.worker', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/distributed-rag-repo/worker:$SHORT_SHA', '.']
+
+  # 3. Push API Image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/distributed-rag-repo/api:$SHORT_SHA']
+
+  # 4. Push Worker Image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/distributed-rag-repo/worker:$SHORT_SHA']
+
+images:
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/distributed-rag-repo/api:$SHORT_SHA'
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/distributed-rag-repo/worker:$SHORT_SHA'
