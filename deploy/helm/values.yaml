@@ -1,0 +1,38 @@
+global:
+  gcpProjectId: "distributed-rag-gcp"
+  gcpServiceAccountEmail: "rag-workload-sa@distributed-rag-gcp.iam.gserviceaccount.com"
+  environment: "production"
+
+api:
+  replicaCount: 2
+  image:
+    repository: "us-central1-docker.pkg.dev/distributed-rag-gcp/distributed-rag-repo/api"
+    tag: "latest"
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 8000
+
+worker:
+  replicaCount: 1
+  image:
+    repository: "us-central1-docker.pkg.dev/distributed-rag-gcp/distributed-rag-repo/worker"
+    tag: "latest"
+    pullPolicy: Always
+
+keda:
+  enabled: true
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  kafkaLagThreshold: "10"
+  kafkaBootstrapServers: "kafka.default.svc.cluster.local:9092"
+  topic: "document-uploaded"
+  consumerGroup: "rag-worker-group"
+
+config:
+  kafkaBootstrapServers: "kafka.default.svc.cluster.local:9092"
+  storageBackend: "gcs"
+  gcsBucketName: "distributed-rag-gcp-distributed-rag-raw-documents"
+  qdrantHost: "qdrant.default.svc.cluster.local"
+  qdrantPort: 6333
+  logLevel: "INFO"
