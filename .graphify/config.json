@@ -1,1 +1,18 @@
-
+{
+  "project_name": "distributed-rag-pipeline",
+  "version": "1.0.0",
+  "languages": ["python"],
+  "include_patterns": [
+    "api/**/*.py",
+    "workers/**/*.py",
+    "scripts/**/*.py"
+  ],
+  "exclude_patterns": [
+    "**/__pycache__/**",
+    "tests/**",
+    "graphify-out/**"
+  ],
+  "ast_parser": "tree-sitter",
+  "clustering_algorithm": "leiden",
+  "output_dir": "graphify-out"
+}
