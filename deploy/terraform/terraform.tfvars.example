@@ -1,0 +1,5 @@
+project_id             = "my-gcp-project-id"
+region                 = "us-central1"
+gke_cluster_name       = "distributed-rag-gke"
+gcs_bucket_name         = "raw-documents"
+artifact_repository_id = "distributed-rag-repo"
